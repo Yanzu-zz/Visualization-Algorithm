@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 
 // 控制器
 public class AlgoVisualizer {
+    private static int DELAY = 40;
+
     // TODO: 创建自己的数据
     private Object data;
     private AlgoFrame frame;
