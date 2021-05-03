@@ -17,6 +17,7 @@ public class MazeData {
 
     public boolean[][] visited;
     public boolean[][] path;
+    public boolean[][] result;
 
     public MazeData(String filename) {
         if (filename == null)
@@ -40,6 +41,7 @@ public class MazeData {
             maze = new char[N][M];
             visited = new boolean[N][M]; // JAVA 8 后默认值为 false，但还是显示声明为 false 好点
             path = new boolean[N][M];
+            result = new boolean[N][M];
 
             for (int i = 0; i < N; i++) {
                 String line = scanner.nextLine();
@@ -52,6 +54,7 @@ public class MazeData {
                     maze[i][j] = line.charAt(j);
                     visited[i][j] = false;
                     path[i][j] = false;
+                    result[i][j] = false;
                 }
             }
         } catch (IOException e) {
