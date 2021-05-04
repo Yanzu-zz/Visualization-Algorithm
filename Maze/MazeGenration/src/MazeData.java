@@ -5,6 +5,8 @@ public class MazeData {
     private int N, M;
     public char[][] maze;
     public boolean[][] visited;
+    public boolean[][] inMist; // 没生成路径的区域用迷雾遮挡
+    public boolean[][] isPath; // 解迷宫最终的路径
 
     private int entranceX, entranceY;
     private int exitX, exitY;
@@ -17,6 +19,8 @@ public class MazeData {
         this.M = M;
         maze = new char[N][M];
         visited = new boolean[N][M];
+        inMist = new boolean[N][M];
+        isPath = new boolean[N][M];
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
@@ -26,10 +30,27 @@ public class MazeData {
                     maze[i][j] = WALL;
 
                 visited[i][j] = false;
+                inMist[i][j] = true; // 初始时所有点都是在迷雾中
+                isPath[i][j] = false;
             }
         }
 
-        // 很遗憾，我们生成的迷宫入口和出口是固定的，如果想要更改，可以自己思考下
+        /*entranceX = 0;
+        while (true) {
+            int t = (int) (Math.random() * (N - 1));
+            if (t % 2 == 0)
+                continue;
+            entranceY = t;
+            break;
+        }
+        while (true) {
+            int t = (int) (Math.random() * (M - 1));
+            if (t % 2 == 0)
+                continue;
+            exitX = t;
+            break;
+        }
+        exitY = N - 1;*/
         entranceX = 1;
         entranceY = 0;
         exitX = N - 2;
@@ -41,6 +62,10 @@ public class MazeData {
 
     public boolean inArea(int x, int y) {
         return x >= 0 && x < N && y >= 0 && y < M;
+    }
+
+    public char getMaze(int x, int y) {
+        return maze[x][y];
     }
 
     public int N() {
@@ -65,5 +90,17 @@ public class MazeData {
 
     public int getExitY() {
         return exitY;
+    }
+
+    public void openMist(int x, int y) {
+        if (!inArea(x, y))
+            throw new IllegalArgumentException("x or y is out of index in inMist Array");
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (inArea(i, j))
+                    inMist[i][j] = false;
+            }
+        }
     }
 }
