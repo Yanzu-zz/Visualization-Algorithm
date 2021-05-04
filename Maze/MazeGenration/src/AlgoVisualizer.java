@@ -18,7 +18,7 @@ public class AlgoVisualizer {
         int sceneWidth = data.M() * blockSize;
 
         EventQueue.invokeLater(() -> {
-            frame = new AlgoFrame("Random Maze Generation Visualization", sceneWidth, sceneHeight);
+            frame = new AlgoFrame("Random Maze Generator", sceneWidth, sceneHeight);
             // 生成完迷宫后可以按 空格键 开始走迷宫
             frame.addKeyListener(new AlgoKeyListener());
 
