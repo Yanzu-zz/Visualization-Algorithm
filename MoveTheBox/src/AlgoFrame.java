@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 // 视图层
 public class AlgoFrame extends JFrame {
@@ -32,18 +34,36 @@ public class AlgoFrame extends JFrame {
         return this.canvasHeight;
     }
 
-    MineSweeperData data;
+    private GameData data;
 
-    public void render(MineSweeperData data) {
+    public void render(GameData data) {
         this.data = data;
         repaint(); // 重新刷新画布中的物品，然后再执行一遍 paintComponet
     }
 
     // 本类的画板类
     private class AlgoCanvas extends JPanel {
+        // 给每种不同的箱子设立一种颜色
+        private HashMap<Character, Color> colorMap;
+        private ArrayList<Color> colorList;
+
         public AlgoCanvas() {
             // JPanel 默认开启双缓存，这里只是看一下 ^_^
             super(true);
+
+            colorMap = new HashMap<Character, Color>();
+
+            colorList = new ArrayList<Color>();
+            colorList.add(AlgoVisHelper.Lime);
+            colorList.add(AlgoVisHelper.DeepOrange);
+            colorList.add(AlgoVisHelper.Amber);
+            colorList.add(AlgoVisHelper.LightGreen);
+            colorList.add(AlgoVisHelper.Red);
+            colorList.add(AlgoVisHelper.Purple);
+            colorList.add(AlgoVisHelper.Blue);
+            colorList.add(AlgoVisHelper.Teal);
+            colorList.add(AlgoVisHelper.Brown);
+            colorList.add(AlgoVisHelper.BlueGrey);
         }
 
         @Override
@@ -60,19 +80,19 @@ public class AlgoFrame extends JFrame {
             int w = canvasWidth / data.M();
             int h = canvasHeight / data.N();
 
-            for (int i = 0; i < data.N(); i++) {
-                for (int j = 0; j < data.M(); j++) {
-                    // 查看 ij 处是否被玩家点开了
-                    if (data.open[i][j]) {
-                        if (data.isMine(i, j))
-                            AlgoVisHelper.putImage(g2d, j * w, i * h, MineSweeperData.mineImageURL);
-                        else
-                            AlgoVisHelper.putImage(g2d, j * w, i * h, MineSweeperData.numberImageURL(data.getNumber(i, j)));
-                    } else {
-                        if (data.flags[i][j])
-                            AlgoVisHelper.putImage(g2d, j * w, i * h, MineSweeperData.flagImageURL);
-                        else
-                            AlgoVisHelper.putImage(g2d, j * w, i * h, MineSweeperData.blockImageURL);
+            Board showBoard = data.getShowBoard();
+            for (int i = 0; i < showBoard.N(); i++) {
+                for (int j = 0; j < showBoard.M(); j++) {
+                    char c = showBoard.getData(i, j);
+                    if (c != Board.EMPTY) {
+                        if (!colorMap.containsKey(c)) {
+                            int sz = colorMap.size();
+                            colorMap.put(c, colorList.get(sz));
+                        }
+
+                        Color color = colorMap.get(c);
+                        AlgoVisHelper.setColor(g2d, color);
+                        AlgoVisHelper.fillRectangle(g2d, j * h + 2, i * w + 2, w - 4, h - 4);
                     }
                 }
             }
