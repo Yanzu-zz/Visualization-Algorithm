@@ -54,13 +54,13 @@ public class AlgoFrame extends JFrame {
             colorMap = new HashMap<Character, Color>();
 
             colorList = new ArrayList<Color>();
+            colorList.add(AlgoVisHelper.LightGreen);
+            colorList.add(AlgoVisHelper.Purple);
+            colorList.add(AlgoVisHelper.Red);
+            colorList.add(AlgoVisHelper.Blue);
             colorList.add(AlgoVisHelper.Lime);
             colorList.add(AlgoVisHelper.DeepOrange);
             colorList.add(AlgoVisHelper.Amber);
-            colorList.add(AlgoVisHelper.LightGreen);
-            colorList.add(AlgoVisHelper.Red);
-            colorList.add(AlgoVisHelper.Purple);
-            colorList.add(AlgoVisHelper.Blue);
             colorList.add(AlgoVisHelper.Teal);
             colorList.add(AlgoVisHelper.Brown);
             colorList.add(AlgoVisHelper.BlueGrey);
@@ -93,6 +93,11 @@ public class AlgoFrame extends JFrame {
                         Color color = colorMap.get(c);
                         AlgoVisHelper.setColor(g2d, color);
                         AlgoVisHelper.fillRectangle(g2d, j * h + 2, i * w + 2, w - 4, h - 4);
+
+                        // 画完箱子后画对应的坐标
+                        AlgoVisHelper.setColor(g2d, AlgoVisHelper.White);
+                        String text = String.format("(%d, %d)", i, j);
+                        AlgoVisHelper.drawText(g2d, text, (j * h) + (h / 2), (i * w) + (w / 2));
                     }
                 }
             }
