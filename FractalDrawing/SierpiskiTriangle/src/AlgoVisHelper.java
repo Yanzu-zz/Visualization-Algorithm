@@ -2,10 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-
-import java.lang.InterruptedException;
 
 public class AlgoVisHelper {
     private AlgoVisHelper() {
@@ -102,10 +99,5 @@ public class AlgoVisHelper {
         path.closePath();
 
         g.fill(path);
-    }
-
-    public static void drawLine(Graphics2D g, double x1, double y1, double x2, double y2){
-        Line2D line = new Line2D.Double(x1, y1, x2, y2);
-        g.draw(line);
     }
 }
